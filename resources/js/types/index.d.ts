@@ -1,43 +1,52 @@
-import { LucideIcon } from 'lucide-react';
+// resources/js/types/index.d.ts
+
 import type { Config } from 'ziggy-js';
 
-export interface Auth {
-    user: User;
-}
+// Mendefinisikan bentuk data untuk setiap Model utama kita
+// Ini akan menjadi "Kamus Data" utama untuk frontend Anda.
 
-export interface BreadcrumbItem {
-    title: string;
-    href: string;
-}
-
-export interface NavGroup {
-    title: string;
-    items: NavItem[];
-}
-
-export interface NavItem {
-    title: string;
-    href: string;
-    icon?: LucideIcon | null;
-    isActive?: boolean;
-}
-
-export interface SharedData {
-    name: string;
-    quote: { message: string; author: string };
-    auth: Auth;
-    ziggy: Config & { location: string };
-    sidebarOpen: boolean;
-    [key: string]: unknown;
-}
-
-export interface User {
+export type User = {
     id: number;
     name: string;
-    email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
-}
+    username: string;
+    phone_number: string | null;
+    role: 'admin' | 'guru' | 'orangtua';
+};
+
+export type Student = {
+    id: number;
+    full_name: string;
+    nickname: string | null;
+    date_of_birth: string;
+    gender: 'Laki-laki' | 'Perempuan';
+    activation_code: string | null;
+    class_id: number | null;
+    parent_id: number | null;
+};
+
+export type ClassModel = {
+    id: number;
+    class_name: string;
+    academic_year: string;
+    teacher_id: number | null;
+};
+
+export type Assessment = {
+    id: number;
+    student_id: number;
+    teacher_id: number;
+    assessment_date: string;
+    skill_category: string;
+    description: string;
+    score: string;
+};
+
+// Mendefinisikan bentuk data yang kita bagikan secara global dari Laravel
+// Ini harus cocok dengan isi method share() di HandleInertiaRequests.php
+export type SharedData = {
+    name: string;
+    auth: {
+        user: User | null;
+    };
+    ziggy: Config & { location: string };
+};
