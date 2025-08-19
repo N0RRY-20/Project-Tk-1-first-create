@@ -1,10 +1,21 @@
 import type { User } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+// 1. Impor AdminLayout
+import AdminLayout from '@/Layouts/AdminLayout';
+import type { ReactNode } from 'react';
 
 export default function Index({ teachers }: { teachers: User[] }) {
     return (
         // Menggunakan padding dan ukuran font default dari layout
-        <div>
-            <h1 className="mb-6 text-3xl font-bold text-gray-700">Manajemen Guru</h1>
+        <>
+            <Head title="Manajemen Guru" />
+            <div className="flex items-center justify-between">
+                <h1 className="mb-6 text-3xl font-bold text-gray-700">Manajemen Guru</h1>
+                {/* 2. Tambahkan tombol ini */}
+                <Link href={route('teachers.create')} className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+                    Tambah Guru Baru
+                </Link>
+            </div>
 
             {/* Memberi bayangan, sudut membulat, dan menyembunyikan overflow */}
             <div className="overflow-hidden rounded-lg bg-white shadow-md">
@@ -29,6 +40,7 @@ export default function Index({ teachers }: { teachers: User[] }) {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </>
     );
 }
+Index.layout = (page: ReactNode) => <AdminLayout>{page}</AdminLayout>;

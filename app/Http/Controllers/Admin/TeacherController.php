@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreTeacherRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia; // Jangan lupa impor Inertia
 use App\Models\User;   // Jangan lupa impor Model User
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -28,15 +30,24 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Teachers/Create');
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTeacherRequest $request)
     {
-        //
+        // Buat user baru dengan data yang sudah divalidasi
+        User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'phone_number' => $request->phone_number,
+            'password' => Hash::make($request->password), // SANGAT PENTING: Selalu hash password
+            'role' => 'guru', // Otomatis set role sebagai 'guru'
+        ]);
+
+        // Arahkan kembali ke halaman daftar guru
+        return to_route('teachers.index');
     }
 
     /**
